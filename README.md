@@ -1,6 +1,7 @@
 # iRIMS to Tanzania Health Supply Chain Mediator
 
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7d1fa436279a4a10ae20f0dff0bef078)](https://app.codacy.com/gh/SoftmedTanzania/thscp-mediator-irims?utm_source=github.com&utm_medium=referral&utm_content=SoftmedTanzania/thscp-mediator-irims&utm_campaign=Badge_Grade_Settings)
 [![Java CI Badge](https://github.com/SoftmedTanzania/thscp-mediator-irims/workflows/Java%20CI%20with%20Maven/badge.svg)](https://github.com/SoftmedTanzania/thscp-mediator-irims/actions?query=workflow%3A%22Java+CI+with+Maven%22)
 [![Coverage Status](https://coveralls.io/repos/github/SoftmedTanzania/thscp-mediator-irims/badge.svg?branch=development)](https://coveralls.io/github/SoftmedTanzania/thscp-mediator-irims?branch=development)
 

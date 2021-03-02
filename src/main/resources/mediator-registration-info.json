@@ -1,0 +1,85 @@
+{
+  "urn": "urn:uuid:f09fc780-7b2d-11eb-9825-3faf729b0886",
+  "version": "0.1.0",
+  "name": "THSCP-Mediator-iRIMS",
+  "description": "A mediator for handling system integration between iRIMS and THSCP",
+  "endpoints": [
+    {
+      "name": "THSCP-Mediator-iRIMS Route",
+      "host": "localhost",
+      "port": "3020",
+      "path": "/thscp",
+      "type": "http"
+    }
+  ],
+  "defaultChannelConfig": [
+    {
+      "name": "iRIMS to THSCP Channel",
+      "urlPattern": "^/thscp$",
+      "type": "http",
+      "allow": [
+        "thscp-mediator-irims-role"
+      ],
+      "routes": [
+        {
+          "name": "THSCP-Mediator-iRIMS Route",
+          "host": "localhost",
+          "port": "3020",
+          "path": "/thscp",
+          "type": "http",
+          "primary": "true"
+        }
+      ]
+    }
+  ],
+  "configDefs": [
+    {
+      "param": "destinationConnectionProperties",
+      "displayName": "Destination Connection Properties",
+      "description": "Configuration to set the hostname, port and path for the destination server",
+      "type": "struct",
+      "template": [
+        {
+          "param": "destinationHost",
+          "displayName": "Destination Host Name",
+          "description": "IP address/hostname of the destination server. e.g 192.168.1.1",
+          "type": "string"
+        },
+        {
+          "param": "destinationPort",
+          "displayName": "Destination Port Number",
+          "description": "The port number of the destination server. e.g 8080",
+          "type": "number"
+        },
+        {
+          "param": "destinationPath",
+          "displayName": "Destination Path",
+          "description": "The destination path for receiving data from the HIM. eg /hdr",
+          "type": "string"
+        },
+        {
+          "param": "destinationScheme",
+          "displayName": "Destination Scheme",
+          "description": "Whether the destination is using HTTP or HTTPS requests.",
+          "type": "option",
+          "values": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "param": "destinationUsername",
+          "displayName": "Destination Username",
+          "description": "The destination username for receiving data from the HIM.",
+          "type": "string"
+        },
+        {
+          "param": "destinationPassword",
+          "displayName": "Destination Password",
+          "description": "The destination password for receiving data from the HIM.",
+          "type": "password"
+        }
+      ]
+    }
+  ]
+}

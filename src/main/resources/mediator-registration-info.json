@@ -14,7 +14,7 @@
   ],
   "defaultChannelConfig": [
     {
-      "name": "iRIMS to THSCP Channel",
+      "name": "iRIMS - THSCP Channel",
       "urlPattern": "^/thscp$",
       "type": "http",
       "allow": [

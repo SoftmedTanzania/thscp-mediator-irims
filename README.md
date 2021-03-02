@@ -62,7 +62,7 @@ The configuration parameters specific to the mediator and the mediator's metadat
       ],
       "defaultChannelConfig": [
         {
-          "name": "iRIMS to THSCP Channel",
+          "name": "iRIMS - THSCP Channel",
           "urlPattern": "^/thscp$",
           "type": "http",
           "allow": [

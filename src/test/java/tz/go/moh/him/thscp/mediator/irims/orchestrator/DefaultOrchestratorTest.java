@@ -1,4 +1,4 @@
-package tz.go.moh.him.thscp.mediator.irims;
+package tz.go.moh.him.thscp.mediator.irims.orchestrator;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
@@ -10,6 +10,7 @@ import org.junit.*;
 import org.openhim.mediator.engine.MediatorConfig;
 import org.openhim.mediator.engine.messages.FinishRequest;
 import org.openhim.mediator.engine.messages.MediatorHTTPRequest;
+import tz.go.moh.him.thscp.mediator.irims.orchestrator.DefaultOrchestrator;
 
 import static org.junit.Assert.*;
 

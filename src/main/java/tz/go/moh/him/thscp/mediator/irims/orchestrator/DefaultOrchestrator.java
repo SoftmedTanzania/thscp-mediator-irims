@@ -1,4 +1,4 @@
-package tz.go.moh.him.thscp.mediator.irims;
+package tz.go.moh.him.thscp.mediator.irims.orchestrator;
 
 import akka.actor.UntypedActor;
 import akka.event.Logging;

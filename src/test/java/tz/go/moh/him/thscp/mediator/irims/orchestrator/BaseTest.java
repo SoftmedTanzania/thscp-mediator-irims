@@ -44,7 +44,7 @@ public abstract class BaseTest {
         system = ActorSystem.create();
 
         testConfig = new MediatorConfig();
-        testConfig.setName("ffars-mediator-e9-tests");
+        testConfig.setName("thscp-mediator-irims-tests");
         testConfig.setProperties("mediator-unit-test.properties");
 
         InputStream regInfo = MediatorMain.class.getClassLoader().getResourceAsStream("mediator-registration-info.json");

@@ -7,7 +7,11 @@ public class iRIMSRequestTest {
 
     @Test
     public void testThscpAck() throws Exception {
-        String jsonThscpAckPayload = "{\"imported\":1,\"updated\":0,\"ignored\":7382,\"status\":\"Success\",\"iL_TransactionIDNumber\":\"5ff2b29416a3c934156395d3\",\"il_TransactionIDNumber\":\"5ff2b29416a3c934156395d3\"}";
+        String jsonThscpAckPayload = "{\"uuid\":\"5ff2b29416a3c934156395d3\",\"actionRequired\":\"action1\"," +
+                "\"affectedCommunity\":\"rai\",\"batchNumber\":\"02\",\"closureDate\":\"2020-11-27\"," +
+                "\"description\":\"this is action\", \"distributedQuantity\":10,\"issue\":\"issuedone\" ," +
+                "\"recallDate\":\"2020-01-01\", \"recallFrequency\":10, \"recalledQuantity\":200," +
+                " \"receivedQuantity\":200, \"startDate\":\"2020-01-02\", \"unit\":\"unit\"}";
         iRIMSRequest irimsRequest = new Gson().fromJson(jsonThscpAckPayload, iRIMSRequest.class);
 
         assertEquals("5ff2b29416a3c934156395d3", irimsRequest.getUuid());
@@ -15,9 +19,9 @@ public class iRIMSRequestTest {
         assertEquals("rai", irimsRequest.getAffectedCommunity());
         assertEquals("02", irimsRequest.getBatchNumber());
         assertEquals("2020-11-27", irimsRequest.getClosureDate());
-        assertEquals("this is action ", irimsRequest.getDescription());
+        assertEquals("this is action", irimsRequest.getDescription());
         assertEquals(10, irimsRequest.getDistributedQuantity());
-        assertEquals("issueone", irimsRequest.getIssue());
+        assertEquals("issuedone", irimsRequest.getIssue());
         assertEquals("2020-01-01", irimsRequest.getRecallDate());
         assertEquals(10, irimsRequest.getRecallFrequency());
         assertEquals(200, irimsRequest.getRecalledQuantity());

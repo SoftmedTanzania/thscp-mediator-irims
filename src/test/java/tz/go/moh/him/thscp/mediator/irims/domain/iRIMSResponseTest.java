@@ -8,7 +8,7 @@ public class iRIMSResponseTest {
 
     @Test
     public void testIRIMSInboundAck() throws Exception {
-        String jsonIRIMSInboundAckPayload = "{\"imported\":1,\"updated\":0,\"ignored\":7382,\"status\":\"Success\",\"iL_TransactionIDNumber\":\"5ff2b29416a3c934156395d3\",\"il_TransactionIDNumber\":\"5ff2b29416a3c934156395d3\"}";
+        String jsonIRIMSInboundAckPayload = "{\"Status\":200,\"Message\":\"Success\"}";
         iRIMSResponse irimsResponse = new Gson().fromJson(jsonIRIMSInboundAckPayload, iRIMSResponse.class);
 
         assertEquals(200, irimsResponse.getStatus());

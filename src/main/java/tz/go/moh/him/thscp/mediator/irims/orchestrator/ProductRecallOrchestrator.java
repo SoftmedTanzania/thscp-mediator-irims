@@ -6,6 +6,7 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
@@ -264,15 +265,13 @@ public class ProductRecallOrchestrator extends UntypedActor{
         }
     }
 
-    protected List<iRIMSRequest> convertMessageBodyToPojoList(String msg) throws IOException {
+    protected List<iRIMSRequest> convertMessageBodyToPojoList(String msg) throws JsonSyntaxException {
         List<iRIMSRequest> irimsRequestList;
-        try {
-            Type listType = new TypeToken<List<iRIMSRequest>>() {
-            }.getType();
-            irimsRequestList = new Gson().fromJson((workingRequest).getBody(), listType);
-        } catch (com.google.gson.JsonSyntaxException ex) {
-            irimsRequestList = (List<iRIMSRequest>) CsvAdapterUtils.csvToArrayList(msg, iRIMSRequest.class);
-        }
+
+        Type listType = new TypeToken<List<iRIMSRequest>>() {
+        }.getType();
+        irimsRequestList = new Gson().fromJson((workingRequest).getBody(), listType);
+
         return irimsRequestList;
     }
 

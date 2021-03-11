@@ -15,7 +15,8 @@ import tz.go.moh.him.thscp.mediator.irims.domain.iRIMSResponse;
 public class DefaultOrchestrator extends UntypedActor {
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
-    private final MediatorConfig config;
+//    private final MediatorConfig config;
+    final MediatorConfig config;
 
 
     public DefaultOrchestrator(MediatorConfig config) {

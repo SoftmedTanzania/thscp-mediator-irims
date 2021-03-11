@@ -129,6 +129,8 @@ public class ProductRecallOrchestratorTest extends BaseTest {
             assertTrue(responseMessage.contains(String.format(thscpErrorMessageResource.getString("ACTION_REQUIRED_IS_BLANK"), "")));
             assertTrue(responseMessage.contains(String.format(thscpErrorMessageResource.getString("AFFECTED_COMMUNITY_IS_BLANK"), "")));
             assertTrue(responseMessage.contains(String.format(thscpErrorMessageResource.getString("BATCH_NUMBER_IS_BLANK"), "")));
+            assertTrue(responseMessage.contains(String.format(thscpErrorMessageResource.getString("ERROR_RECALL_DATE_IS_NOT_VALID_PAST_DATE"), "2022-05-05")));
+            assertTrue(responseMessage.contains(String.format(thscpErrorMessageResource.getString("ERROR_START_DATE_IS_NOT_VALID_PAST_DATE"), "2022-05-05")));
         }};
     }
 

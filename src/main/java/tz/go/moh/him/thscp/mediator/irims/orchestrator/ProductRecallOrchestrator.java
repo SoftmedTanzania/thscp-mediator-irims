@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpStatus;
+import org.apache.http.ParseException;
 import org.codehaus.plexus.util.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.http.HttpHeaders;
@@ -22,6 +23,7 @@ import org.openhim.mediator.engine.messages.MediatorHTTPResponse;
 import tz.go.moh.him.mediator.core.adapter.CsvAdapterUtils;
 import tz.go.moh.him.mediator.core.domain.ErrorMessage;
 import tz.go.moh.him.mediator.core.domain.ResultDetail;
+import tz.go.moh.him.mediator.core.validator.DateValidatorUtils;
 import tz.go.moh.him.thscp.mediator.irims.domain.iRIMSRequest;
 
 import java.io.IOException;
@@ -157,8 +159,25 @@ public class ProductRecallOrchestrator extends UntypedActor{
         if (StringUtils.isBlank(irimsRequest.getUnit()))
             resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("UNIT_IS_BLANK"), null));
 
+        try {
+            if (!DateValidatorUtils.isValidPastDate(irimsRequest.getRecallDate(), "yyyy-mm-dd")) {
+                resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_RECALL_DATE_IS_NOT_VALID_PAST_DATE"), null));
+            }
+        } catch (java.text.ParseException e) {
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_RECALL_DATE_INVALID_FORMAT"),null));
+        }
+
+        try {
+            if (!DateValidatorUtils.isValidPastDate(irimsRequest.getStartDate(), "yyyy-mm-dd")) {
+                resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_START_DATE_IS_NOT_VALID_PAST_DATE"), null));
+            }
+        } catch (java.text.ParseException e) {
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_START_DATE_INVALID_FORMAT"),null));
+        }
+
         return resultDetailsList;
     }
+
 
     @Override
     public void onReceive(Object msg) {

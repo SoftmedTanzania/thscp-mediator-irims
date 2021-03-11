@@ -1,6 +1,10 @@
 {
   "PRODUCT_RECALL_ERROR_MESSAGES":{
     "ERROR_INVALID_PAYLOAD": "Error the payload is invalid",
+    "ERROR_RECALL_DATE_INVALID_FORMAT": "Recall date is in an invalid format",
+    "ERROR_RECALL_DATE_IS_NOT_VALID_PAST_DATE": "Recall date is not a valid past date",
+    "ERROR_START_DATE_INVALID_FORMAT": "Start date is in an invalid format",
+    "ERROR_START_DATE_IS_NOT_VALID_PAST_DATE": "Start date is not a valid past date",
     "UUID_IS_BLANK": "Validation failed. UUID must not be blank",
     "ACTION_REQUIRED_IS_BLANK": "Validation failed. actionRequired must not be blank",
     "AFFECTED_COMMUNITY_IS_BLANK": "Validation failed. affectedCommunity must not be blank",

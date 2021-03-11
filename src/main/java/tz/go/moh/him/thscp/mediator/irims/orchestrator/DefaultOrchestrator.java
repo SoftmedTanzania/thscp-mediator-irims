@@ -10,7 +10,6 @@ import org.openhim.mediator.engine.MediatorConfig;
 import org.openhim.mediator.engine.messages.FinishRequest;
 import org.openhim.mediator.engine.messages.MediatorHTTPRequest;
 import tz.go.moh.him.thscp.mediator.irims.domain.iRIMSResponse;
-import tz.go.moh.him.thscp.mediator.irims.domain.iRIMSRequest;
 
 
 public class DefaultOrchestrator extends UntypedActor {

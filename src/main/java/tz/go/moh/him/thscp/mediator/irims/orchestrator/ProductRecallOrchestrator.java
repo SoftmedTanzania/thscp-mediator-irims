@@ -298,32 +298,6 @@ public class ProductRecallOrchestrator extends UntypedActor{
         }
     }
 
-    /**
-     * Handles checking for the correct date string format from a varierity of formats
-     *
-     * @param dateString of the date
-     * @return the matching date string format
-     */
-    public static String checkDateFormatStrings(String dateString) {
-        final ActorSystem system = ActorSystem.create("mediator");
-
-        final LoggingAdapter log = Logging.getLogger(system, "main");
-
-        List<String> formatStrings = Arrays.asList("yyyy-MM-dd HH:mm:ss:ms", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd","yyyyMMdd");
-        for (String formatString : formatStrings) {
-            try {
-                new SimpleDateFormat(formatString).parse(dateString);
-                return formatString;
-            }
-            catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return "";
-    }
-
-
     protected List<iRIMSRequest> convertMessageBodyToPojoList(String msg) throws JsonSyntaxException {
         List<iRIMSRequest> irimsRequestList;
 

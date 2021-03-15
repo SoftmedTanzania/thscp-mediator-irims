@@ -133,6 +133,4 @@ public class ProductRecallOrchestratorTest extends BaseTest {
             assertTrue(responseMessage.contains(String.format(thscpErrorMessageResource.getString("ERROR_START_DATE_IS_NOT_VALID_PAST_DATE"), "2022-05-05")));
         }};
     }
-
-
 }

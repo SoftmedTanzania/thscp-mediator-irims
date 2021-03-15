@@ -165,26 +165,26 @@ public class ProductRecallOrchestrator extends UntypedActor{
             resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("UNIT_IS_BLANK"), null));
 
         try {
-            if (!DateValidatorUtils.isValidPastDate(irimsRequest.getRecallDate(), "yyyy-MM-dd")) {
+            if (!DateValidatorUtils.isValidPastDate(irimsRequest.getRecallDate(), checkDateFormatStrings(irimsRequest.getRecallDate()))) {
                 resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_RECALL_DATE_IS_NOT_VALID_PAST_DATE"), null));
             }
-           // else{
-               // SimpleDateFormat irimsDateFormat = new SimpleDateFormat(checkDateFormatStrings(irimsRequest.getRecallDate()));
-               // irimsRequest.setRecallDate(thscpDateFormat.format(irimsDateFormat.parse(irimsRequest.getRecallDate())));
+            else{
+                SimpleDateFormat irimsDateFormat = new SimpleDateFormat(checkDateFormatStrings(irimsRequest.getRecallDate()));
+                irimsRequest.setRecallDate(thscpDateFormat.format(irimsDateFormat.parse(irimsRequest.getRecallDate())));
 
-         //   }
+            }
         } catch (java.text.ParseException e) {
             resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_RECALL_DATE_INVALID_FORMAT"),null));
         }
 
         try {
-            if (!DateValidatorUtils.isValidPastDate(irimsRequest.getStartDate(), "yyyy-MM-dd")) {
+            if (!DateValidatorUtils.isValidPastDate(irimsRequest.getStartDate(), checkDateFormatStrings(irimsRequest.getStartDate()))) {
                 resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_START_DATE_IS_NOT_VALID_PAST_DATE"), null));
             }
-           // else{
-               // SimpleDateFormat irimsDateFormat = new SimpleDateFormat(checkDateFormatStrings(irimsRequest.getStartDate()));
-               // irimsRequest.setStartDate(thscpDateFormat.format(irimsDateFormat.parse(irimsRequest.getStartDate())));
-          //  }
+            else{
+                SimpleDateFormat irimsDateFormat = new SimpleDateFormat(checkDateFormatStrings(irimsRequest.getStartDate()));
+                irimsRequest.setStartDate(thscpDateFormat.format(irimsDateFormat.parse(irimsRequest.getStartDate())));
+            }
         } catch (java.text.ParseException e) {
             resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_START_DATE_INVALID_FORMAT"),null));
         }
@@ -297,6 +297,33 @@ public class ProductRecallOrchestrator extends UntypedActor{
             httpConnector.tell(forwardToThscpRequest, getSelf());
         }
     }
+
+    /**
+     * Handles checking for the correct date string format from a varierity of formats
+     *
+     * @param dateString of the date
+     * @return the matching date string format
+     */
+    public static String checkDateFormatStrings(String dateString) {
+        final ActorSystem system = ActorSystem.create("mediator");
+
+        final LoggingAdapter log = Logging.getLogger(system, "main");
+
+        List<String> formatStrings = Arrays.asList("yyyy-MM-dd HH:mm:ss:ms", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd","yyyyMMdd");
+        for (String formatString : formatStrings) {
+            try {
+                new SimpleDateFormat(formatString).parse(dateString);
+                log.info("simple date: " +new SimpleDateFormat(formatString).parse(dateString).toString());
+                return formatString;
+            }
+            catch (ParseException e) {
+              //  e.printStackTrace();
+            }
+        }
+
+        return "";
+    }
+
 
     protected List<iRIMSRequest> convertMessageBodyToPojoList(String msg) throws JsonSyntaxException {
         List<iRIMSRequest> irimsRequestList;

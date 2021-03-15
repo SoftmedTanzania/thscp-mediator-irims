@@ -6,7 +6,6 @@ import akka.event.LoggingAdapter;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.openhim.mediator.engine.*;
-import tz.go.moh.him.thscp.mediator.irims.orchestrator.DefaultOrchestrator;
 import tz.go.moh.him.thscp.mediator.irims.orchestrator.ProductRecallOrchestrator;
 
 import java.io.File;
@@ -21,7 +20,6 @@ public class MediatorMain {
 
         //TODO Configure routes here
         //...
-        routingTable.addRoute("/irims-inbound", DefaultOrchestrator.class);
         routingTable.addRoute("/irims-thscp", ProductRecallOrchestrator.class);
 
         return routingTable;

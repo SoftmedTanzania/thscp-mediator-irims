@@ -2,6 +2,7 @@ package tz.go.moh.him.thscp.mediator.irims.orchestrator;
 
 
 import akka.actor.ActorSelection;
+import akka.actor.ActorSystem;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
@@ -11,7 +12,6 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpStatus;
-import org.apache.http.ParseException;
 import org.codehaus.plexus.util.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.http.HttpHeaders;
@@ -20,15 +20,19 @@ import org.openhim.mediator.engine.MediatorConfig;
 import org.openhim.mediator.engine.messages.FinishRequest;
 import org.openhim.mediator.engine.messages.MediatorHTTPRequest;
 import org.openhim.mediator.engine.messages.MediatorHTTPResponse;
+import sun.rmi.runtime.Log;
 import tz.go.moh.him.mediator.core.adapter.CsvAdapterUtils;
 import tz.go.moh.him.mediator.core.domain.ErrorMessage;
 import tz.go.moh.him.mediator.core.domain.ResultDetail;
 import tz.go.moh.him.mediator.core.validator.DateValidatorUtils;
 import tz.go.moh.him.thscp.mediator.irims.domain.iRIMSRequest;
 
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.lang.reflect.Type;
 
@@ -36,7 +40,7 @@ public class ProductRecallOrchestrator extends UntypedActor{
     /**
      * The logger instance.
      */
-    protected final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+    final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
     /**
      * The mediator configuration.
      */
@@ -49,6 +53,7 @@ public class ProductRecallOrchestrator extends UntypedActor{
 
     protected JSONObject errorMessageResource;
 
+    protected SimpleDateFormat thscpDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     /**
      * Represents a list of error messages, if any,that have been caught during payload data validation to be returned to the source system as response.
      */
@@ -160,16 +165,25 @@ public class ProductRecallOrchestrator extends UntypedActor{
             resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("UNIT_IS_BLANK"), null));
 
         try {
-            if (!DateValidatorUtils.isValidPastDate(irimsRequest.getRecallDate(), "yyyy-mm-dd")) {
+            if (!DateValidatorUtils.isValidPastDate(irimsRequest.getRecallDate(), "yyyy-MM-dd")) {
                 resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_RECALL_DATE_IS_NOT_VALID_PAST_DATE"), null));
+            }
+            else{
+               // SimpleDateFormat irimsDateFormat = new SimpleDateFormat(checkDateFormatStrings(irimsRequest.getRecallDate()));
+               // irimsRequest.setRecallDate(thscpDateFormat.format(irimsDateFormat.parse(irimsRequest.getRecallDate())));
+
             }
         } catch (java.text.ParseException e) {
             resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_RECALL_DATE_INVALID_FORMAT"),null));
         }
 
         try {
-            if (!DateValidatorUtils.isValidPastDate(irimsRequest.getStartDate(), "yyyy-mm-dd")) {
+            if (!DateValidatorUtils.isValidPastDate(irimsRequest.getStartDate(), "yyyy-MM-dd")) {
                 resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_START_DATE_IS_NOT_VALID_PAST_DATE"), null));
+            }
+            else{
+               // SimpleDateFormat irimsDateFormat = new SimpleDateFormat(checkDateFormatStrings(irimsRequest.getStartDate()));
+               // irimsRequest.setStartDate(thscpDateFormat.format(irimsDateFormat.parse(irimsRequest.getStartDate())));
             }
         } catch (java.text.ParseException e) {
             resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_START_DATE_INVALID_FORMAT"),null));
@@ -284,6 +298,32 @@ public class ProductRecallOrchestrator extends UntypedActor{
         }
     }
 
+    /**
+     * Handles checking for the correct date string format from a varierity of formats
+     *
+     * @param dateString of the date
+     * @return the matching date string format
+     */
+    public static String checkDateFormatStrings(String dateString) {
+        final ActorSystem system = ActorSystem.create("mediator");
+
+        final LoggingAdapter log = Logging.getLogger(system, "main");
+
+        List<String> formatStrings = Arrays.asList("yyyy-MM-dd HH:mm:ss:ms", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd","yyyyMMdd");
+        for (String formatString : formatStrings) {
+            try {
+                new SimpleDateFormat(formatString).parse(dateString);
+                return formatString;
+            }
+            catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return "";
+    }
+
+
     protected List<iRIMSRequest> convertMessageBodyToPojoList(String msg) throws JsonSyntaxException {
         List<iRIMSRequest> irimsRequestList;
 
@@ -296,3 +336,4 @@ public class ProductRecallOrchestrator extends UntypedActor{
 
 
 }
+

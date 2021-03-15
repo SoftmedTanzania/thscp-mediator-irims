@@ -8,27 +8,19 @@
       "name": "THSCP-Mediator-iRIMS Route",
       "host": "localhost",
       "port": "3020",
-      "path": "/irims-inbound",
+      "path": "/irims-thscp",
       "type": "http"
     }
   ],
   "defaultChannelConfig": [
     {
       "name": "iRIMS - THSCP Channel",
-      "urlPattern": "^/irims-inbound$",
+      "urlPattern": "^/irims-thscp$",
       "type": "http",
       "allow": [
         "thscp-mediator-irims-role"
       ],
       "routes": [
-        {
-          "name": "THSCP-Mediator-iRIMS Route",
-          "host": "localhost",
-          "port": "3020",
-          "path": "/irims-inbound",
-          "type": "http",
-          "primary": "true"
-        },
         {
           "name": "THSCP-Mediator-iRIMS Route",
           "host": "localhost",

@@ -303,8 +303,6 @@ public class ProductRecallOrchestrator extends UntypedActor{
     public static String checkDateFormatStrings(String dateString) {
         final ActorSystem system = ActorSystem.create("mediator");
 
-        final LoggingAdapter log = Logging.getLogger(system, "main");
-
         List<String> formatStrings = Arrays.asList("yyyy-MM-dd HH:mm:ss:ms", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd","yyyyMMdd");
         for (String formatString : formatStrings) {
             try {

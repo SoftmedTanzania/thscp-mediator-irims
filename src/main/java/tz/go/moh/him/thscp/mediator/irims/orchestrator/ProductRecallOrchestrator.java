@@ -36,7 +36,7 @@ public class ProductRecallOrchestrator extends UntypedActor{
     /**
      * The logger instance.
      */
-    final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+    private final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
     /**
      * The mediator configuration.
      */
@@ -301,8 +301,6 @@ public class ProductRecallOrchestrator extends UntypedActor{
      * @return the matching date string format
      */
     public static String checkDateFormatStrings(String dateString) {
-        final ActorSystem system = ActorSystem.create("mediator");
-
         List<String> formatStrings = Arrays.asList("yyyy-MM-dd HH:mm:ss:ms", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd","yyyyMMdd");
         for (String formatString : formatStrings) {
             try {

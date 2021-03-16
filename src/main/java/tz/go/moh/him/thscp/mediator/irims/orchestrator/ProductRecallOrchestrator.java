@@ -94,7 +94,6 @@ public class ProductRecallOrchestrator extends UntypedActor{
                 resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_INVALID_PAYLOAD"), null));
             } else {
                 resultDetailsList.addAll(validateRequiredFields(irimsRequest));
-                resultDetailsList.addAll(validateDateFields(irimsRequest));
             }
 
             //TODO implement additional data validations checks

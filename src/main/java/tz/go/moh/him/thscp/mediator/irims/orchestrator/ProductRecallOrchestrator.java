@@ -94,7 +94,6 @@ public class ProductRecallOrchestrator extends UntypedActor{
                 resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_INVALID_PAYLOAD"), null));
             } else {
                 resultDetailsList.addAll(validateRequiredFields(irimsRequest));
-                resultDetailsList.addAll(validateDateRequiredFields(irimsRequest));
             }
 
             //TODO implement additional data validations checks
@@ -132,6 +131,9 @@ public class ProductRecallOrchestrator extends UntypedActor{
         if (StringUtils.isBlank(irimsRequest.getBatchNumber()))
             resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("BATCH_NUMBER_IS_BLANK"), null));
 
+        if (StringUtils.isBlank(irimsRequest.getClosureDate()))
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("CLOSURE_DATE_IS_BLANK"), null));
+
         if (StringUtils.isBlank(irimsRequest.getDescription()))
             resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("DESCRIPTION_IS_BLANK"), null));
 
@@ -141,86 +143,45 @@ public class ProductRecallOrchestrator extends UntypedActor{
         if (StringUtils.isBlank(irimsRequest.getIssue()))
             resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ISSUE_IS_BLANK"), null));
 
+        if (StringUtils.isBlank(irimsRequest.getRecallDate()))
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("RECALL_DATE_IS_BLANK"), null));
+
         if (StringUtils.isBlank(String.valueOf(irimsRequest.getRecallFrequency())))
             resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("RECALL_FREQUENCY_IS_BLANK"), null));
 
         if (StringUtils.isBlank(String.valueOf(irimsRequest.getRecalledQuantity())))
             resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("RECALLED_QUANTITY_IS_BLANK"), null));
 
-        if (StringUtils.isBlank(irimsRequest.getUnit()))
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("UNIT_IS_BLANK"), null));
-
-        try {
-            if (!DateValidatorUtils.isValidPastDate(irimsRequest.getRecallDate(), checkDateFormatStrings(irimsRequest.getRecallDate()))) {
-                resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_RECALL_DATE_IS_NOT_VALID_PAST_DATE"), null));
-            }
-            else{
-                SimpleDateFormat irimsDateFormat = new SimpleDateFormat(checkDateFormatStrings(irimsRequest.getRecallDate()));
-                irimsRequest.setRecallDate(thscpDateFormat.format(irimsDateFormat.parse(irimsRequest.getRecallDate())));
-
-            }
-        } catch (ParseException e) {
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_RECALL_DATE_INVALID_FORMAT"),null));
-        }
-
-        try {
-            if (!DateValidatorUtils.isValidPastDate(irimsRequest.getStartDate(), checkDateFormatStrings(irimsRequest.getStartDate()))) {
-                resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_START_DATE_IS_NOT_VALID_PAST_DATE"), null));
-            }
-            else{
-                SimpleDateFormat irimsDateFormat = new SimpleDateFormat(checkDateFormatStrings(irimsRequest.getStartDate()));
-                irimsRequest.setStartDate(thscpDateFormat.format(irimsDateFormat.parse(irimsRequest.getStartDate())));
-            }
-        } catch (ParseException e) {
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_START_DATE_INVALID_FORMAT"),null));
-        }
-
-        return resultDetailsList;
-    }
-
-    /**
-     * Validate iRIMS Request Date Required Fields
-     *
-     * @param irimsRequest to be validated
-     * @return array list of validation results details for failed validations
-     */
-    public List<ResultDetail> validateDateRequiredFields(IRIMSRequest irimsRequest) {
-        List<ResultDetail> resultDetailsList = new ArrayList<>();
-
-
-        if (StringUtils.isBlank(irimsRequest.getClosureDate()))
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("CLOSURE_DATE_IS_BLANK"), null));
-
-        if (StringUtils.isBlank(irimsRequest.getRecallDate()))
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("RECALL_DATE_IS_BLANK"), null));
-
         if (StringUtils.isBlank(String.valueOf(irimsRequest.getStartDate())))
             resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("START_DATE_IS_BLANK"), null));
 
-        try {
-            if (!DateValidatorUtils.isValidPastDate(irimsRequest.getRecallDate(), checkDateFormatStrings(irimsRequest.getRecallDate()))) {
-                resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_RECALL_DATE_IS_NOT_VALID_PAST_DATE"), null));
-            }
-            else{
-                SimpleDateFormat irimsDateFormat = new SimpleDateFormat(checkDateFormatStrings(irimsRequest.getRecallDate()));
-                irimsRequest.setRecallDate(thscpDateFormat.format(irimsDateFormat.parse(irimsRequest.getRecallDate())));
+        if (StringUtils.isBlank(irimsRequest.getUnit()))
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("UNIT_IS_BLANK"), null));
 
-            }
-        } catch (ParseException e) {
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_RECALL_DATE_INVALID_FORMAT"),null));
-        }
-
-        try {
-            if (!DateValidatorUtils.isValidPastDate(irimsRequest.getStartDate(), checkDateFormatStrings(irimsRequest.getStartDate()))) {
-                resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_START_DATE_IS_NOT_VALID_PAST_DATE"), null));
-            }
-            else{
-                SimpleDateFormat irimsDateFormat = new SimpleDateFormat(checkDateFormatStrings(irimsRequest.getStartDate()));
-                irimsRequest.setStartDate(thscpDateFormat.format(irimsDateFormat.parse(irimsRequest.getStartDate())));
-            }
-        } catch (ParseException e) {
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_START_DATE_INVALID_FORMAT"),null));
-        }
+//        try {
+//            if (!DateValidatorUtils.isValidPastDate(irimsRequest.getRecallDate(), checkDateFormatStrings(irimsRequest.getRecallDate()))) {
+//                resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_RECALL_DATE_IS_NOT_VALID_PAST_DATE"), null));
+//            }
+//            else{
+//                SimpleDateFormat irimsDateFormat = new SimpleDateFormat(checkDateFormatStrings(irimsRequest.getRecallDate()));
+//                irimsRequest.setRecallDate(thscpDateFormat.format(irimsDateFormat.parse(irimsRequest.getRecallDate())));
+//
+//            }
+//        } catch (ParseException e) {
+//            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_RECALL_DATE_INVALID_FORMAT"),null));
+//        }
+//
+//        try {
+//            if (!DateValidatorUtils.isValidPastDate(irimsRequest.getStartDate(), checkDateFormatStrings(irimsRequest.getStartDate()))) {
+//                resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_START_DATE_IS_NOT_VALID_PAST_DATE"), null));
+//            }
+//            else{
+//                SimpleDateFormat irimsDateFormat = new SimpleDateFormat(checkDateFormatStrings(irimsRequest.getStartDate()));
+//                irimsRequest.setStartDate(thscpDateFormat.format(irimsDateFormat.parse(irimsRequest.getStartDate())));
+//            }
+//        } catch (ParseException e) {
+//            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_START_DATE_INVALID_FORMAT"),null));
+//        }
 
         return resultDetailsList;
     }

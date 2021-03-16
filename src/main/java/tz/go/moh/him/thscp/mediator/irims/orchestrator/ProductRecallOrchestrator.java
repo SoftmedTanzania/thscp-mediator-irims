@@ -169,7 +169,7 @@ public class ProductRecallOrchestrator extends UntypedActor{
                 irimsRequest.setRecallDate(thscpDateFormat.format(irimsDateFormat.parse(irimsRequest.getRecallDate())));
 
             }
-        } catch (java.text.ParseException e) {
+        } catch (ParseException e) {
             resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_RECALL_DATE_INVALID_FORMAT"),null));
         }
 
@@ -181,7 +181,7 @@ public class ProductRecallOrchestrator extends UntypedActor{
                 SimpleDateFormat irimsDateFormat = new SimpleDateFormat(checkDateFormatStrings(irimsRequest.getStartDate()));
                 irimsRequest.setStartDate(thscpDateFormat.format(irimsDateFormat.parse(irimsRequest.getStartDate())));
             }
-        } catch (java.text.ParseException e) {
+        } catch (ParseException e) {
             resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_START_DATE_INVALID_FORMAT"),null));
         }
 

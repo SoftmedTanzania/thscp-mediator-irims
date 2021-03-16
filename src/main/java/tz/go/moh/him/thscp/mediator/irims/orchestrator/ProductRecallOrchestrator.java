@@ -26,8 +26,6 @@ import tz.go.moh.him.mediator.core.domain.ErrorMessage;
 import tz.go.moh.him.mediator.core.domain.ResultDetail;
 import tz.go.moh.him.mediator.core.validator.DateValidatorUtils;
 import tz.go.moh.him.thscp.mediator.irims.domain.iRIMSRequest;
-
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -313,7 +311,6 @@ public class ProductRecallOrchestrator extends UntypedActor{
         for (String formatString : formatStrings) {
             try {
                 new SimpleDateFormat(formatString).parse(dateString);
-                log.info("simple date: " +new SimpleDateFormat(formatString).parse(dateString).toString());
                 return formatString;
             }
             catch (ParseException e) {

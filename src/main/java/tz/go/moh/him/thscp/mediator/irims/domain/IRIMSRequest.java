@@ -1,9 +1,8 @@
 package tz.go.moh.him.thscp.mediator.irims.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
-import scala.Int;
 
-public class iRIMSRequest {
+public class IRIMSRequest {
 
     @JsonProperty("uuid")
     @SerializedName("uuid")

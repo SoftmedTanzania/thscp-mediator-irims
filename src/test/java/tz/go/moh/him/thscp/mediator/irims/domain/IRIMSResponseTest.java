@@ -4,12 +4,12 @@ import com.google.gson.Gson;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-public class iRIMSResponseTest {
+public class IRIMSResponseTest {
 
     @Test
     public void testIRIMSInboundAck() throws Exception {
         String jsonIRIMSInboundAckPayload = "{\"Status\":200,\"Message\":\"Success\"}";
-        iRIMSResponse irimsResponse = new Gson().fromJson(jsonIRIMSInboundAckPayload, iRIMSResponse.class);
+        IRIMSResponse irimsResponse = new Gson().fromJson(jsonIRIMSInboundAckPayload, IRIMSResponse.class);
 
         assertEquals(200, irimsResponse.getStatus());
         assertEquals("Success", irimsResponse.getMessage());

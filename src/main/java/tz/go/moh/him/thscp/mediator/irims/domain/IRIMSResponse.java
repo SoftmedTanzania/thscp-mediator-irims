@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
 
-public class iRIMSResponse {
+public class IRIMSResponse {
 
     /**
      * The Status Code.
@@ -20,10 +20,10 @@ public class iRIMSResponse {
     @JsonProperty("Message")
     private String message;
 
-    public iRIMSResponse() {
+    public IRIMSResponse() {
     }
 
-    public iRIMSResponse(int status,String message) {
+    public IRIMSResponse(int status, String message) {
         this.status = status;
         this.message = message;
     }

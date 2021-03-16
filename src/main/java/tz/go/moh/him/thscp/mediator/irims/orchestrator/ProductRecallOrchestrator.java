@@ -20,12 +20,10 @@ import org.openhim.mediator.engine.MediatorConfig;
 import org.openhim.mediator.engine.messages.FinishRequest;
 import org.openhim.mediator.engine.messages.MediatorHTTPRequest;
 import org.openhim.mediator.engine.messages.MediatorHTTPResponse;
-import sun.rmi.runtime.Log;
-import tz.go.moh.him.mediator.core.adapter.CsvAdapterUtils;
 import tz.go.moh.him.mediator.core.domain.ErrorMessage;
 import tz.go.moh.him.mediator.core.domain.ResultDetail;
 import tz.go.moh.him.mediator.core.validator.DateValidatorUtils;
-import tz.go.moh.him.thscp.mediator.irims.domain.iRIMSRequest;
+import tz.go.moh.him.thscp.mediator.irims.domain.IRIMSRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -85,10 +83,10 @@ public class ProductRecallOrchestrator extends UntypedActor{
      *
      * @param receivedList The object to be validated
      */
-    protected List<iRIMSRequest> validateData(List<iRIMSRequest> receivedList) {
-        List<iRIMSRequest> validReceivedList = new ArrayList<>();
+    protected List<IRIMSRequest> validateData(List<IRIMSRequest> receivedList) {
+        List<IRIMSRequest> validReceivedList = new ArrayList<>();
 
-        for (iRIMSRequest irimsRequest : receivedList) {
+        for (IRIMSRequest irimsRequest : receivedList) {
             ErrorMessage errorMessage = new ErrorMessage();
             errorMessage.setSource(new Gson().toJson(irimsRequest));
 
@@ -120,7 +118,7 @@ public class ProductRecallOrchestrator extends UntypedActor{
      * @param irimsRequest to be validated
      * @return array list of validation results details for failed validations
      */
-    public List<ResultDetail> validateRequiredFields(iRIMSRequest irimsRequest) {
+    public List<ResultDetail> validateRequiredFields(IRIMSRequest irimsRequest) {
         List<ResultDetail> resultDetailsList = new ArrayList<>();
 
         if (StringUtils.isBlank(irimsRequest.getUuid()))
@@ -200,7 +198,7 @@ public class ProductRecallOrchestrator extends UntypedActor{
             log.info("Received request: " + workingRequest.getHost() + " " + workingRequest.getMethod() + " " + workingRequest.getPath());
 
             //Converting the received request body to POJO List
-            List<iRIMSRequest> irimsRequestList = new ArrayList<>();
+            List<IRIMSRequest> irimsRequestList = new ArrayList<>();
             try {
                 irimsRequestList = convertMessageBodyToPojoList(((MediatorHTTPRequest) msg).getBody());
             } catch (Exception e) {
@@ -214,7 +212,7 @@ public class ProductRecallOrchestrator extends UntypedActor{
 
             log.info("Received payload in JSON = " + new Gson().toJson(irimsRequestList));
 
-            List<iRIMSRequest> validatedObjects;
+            List<IRIMSRequest> validatedObjects;
             if (irimsRequestList.isEmpty()) {
                 ErrorMessage errorMessage = new ErrorMessage(
                         workingRequest.getBody(),
@@ -322,10 +320,10 @@ public class ProductRecallOrchestrator extends UntypedActor{
     }
 
 
-    protected List<iRIMSRequest> convertMessageBodyToPojoList(String msg) throws JsonSyntaxException {
-        List<iRIMSRequest> irimsRequestList;
+    protected List<IRIMSRequest> convertMessageBodyToPojoList(String msg) throws JsonSyntaxException {
+        List<IRIMSRequest> irimsRequestList;
 
-        Type listType = new TypeToken<List<iRIMSRequest>>() {
+        Type listType = new TypeToken<List<IRIMSRequest>>() {
         }.getType();
         irimsRequestList = new Gson().fromJson((workingRequest).getBody(), listType);
 

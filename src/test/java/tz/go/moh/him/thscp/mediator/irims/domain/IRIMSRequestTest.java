@@ -3,7 +3,7 @@ import com.google.gson.Gson;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-public class iRIMSRequestTest {
+public class IRIMSRequestTest {
 
     @Test
     public void testThscpAck() throws Exception {
@@ -12,7 +12,7 @@ public class iRIMSRequestTest {
                 "\"description\":\"this is action\", \"distributedQuantity\":10,\"issue\":\"issuedone\" ," +
                 "\"recallDate\":\"2020-01-01\", \"recallFrequency\":10, \"recalledQuantity\":200," +
                 " \"receivedQuantity\":200, \"startDate\":\"2020-01-02\", \"unit\":\"unit\"}";
-        iRIMSRequest irimsRequest = new Gson().fromJson(jsonThscpAckPayload, iRIMSRequest.class);
+        IRIMSRequest irimsRequest = new Gson().fromJson(jsonThscpAckPayload, IRIMSRequest.class);
 
         assertEquals("5ff2b29416a3c934156395d3", irimsRequest.getUuid());
         assertEquals("action1", irimsRequest.getActionRequired());

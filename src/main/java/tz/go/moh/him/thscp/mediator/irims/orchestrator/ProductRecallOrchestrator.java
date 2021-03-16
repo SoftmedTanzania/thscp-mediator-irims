@@ -94,6 +94,7 @@ public class ProductRecallOrchestrator extends UntypedActor{
                 resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_INVALID_PAYLOAD"), null));
             } else {
                 resultDetailsList.addAll(validateRequiredFields(irimsRequest));
+                resultDetailsList.addAll(validateDateFields(irimsRequest));
             }
 
             //TODO implement additional data validations checks
@@ -158,6 +159,17 @@ public class ProductRecallOrchestrator extends UntypedActor{
         if (StringUtils.isBlank(irimsRequest.getUnit()))
             resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("UNIT_IS_BLANK"), null));
 
+        return resultDetailsList;
+    }
+
+    /**
+     * Validate iRIMS Request Date Fields
+     *
+     * @param irimsRequest to be validated
+     * @return array list of validation results details for failed date validations
+     */
+    public List<ResultDetail> validateDateFields(IRIMSRequest irimsRequest) {
+        List<ResultDetail> resultDetailsList = new ArrayList<>();
         try {
             if (!DateValidatorUtils.isValidPastDate(irimsRequest.getRecallDate(), checkDateFormatStrings(irimsRequest.getRecallDate()))) {
                 resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_RECALL_DATE_IS_NOT_VALID_PAST_DATE"), null));
@@ -185,7 +197,6 @@ public class ProductRecallOrchestrator extends UntypedActor{
 
         return resultDetailsList;
     }
-
 
     @Override
     public void onReceive(Object msg) {

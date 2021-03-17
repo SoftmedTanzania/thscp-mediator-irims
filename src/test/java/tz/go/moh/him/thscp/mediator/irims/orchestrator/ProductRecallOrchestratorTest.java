@@ -82,7 +82,7 @@ public class ProductRecallOrchestratorTest extends BaseTest {
                     break;
                 }
             }
-            Assert.assertNotNull(foundResponse);
+            assertNotNull(foundResponse);
         }};
     }
 

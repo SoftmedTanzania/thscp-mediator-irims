@@ -55,7 +55,7 @@ public class MockDestination extends MockHTTPConnector {
      * @param msg The message.
      */
     @Override
-    public void executeOnReceive(MediatorHTTPRequest msg) {
+    public void executeOnReceive(MediatorHTTPRequest msg){
         System.out.println("Received body : " + msg.getBody());
 
         InputStream stream = ProductRecallOrchestratorTest.class.getClassLoader().getResourceAsStream("request.json");

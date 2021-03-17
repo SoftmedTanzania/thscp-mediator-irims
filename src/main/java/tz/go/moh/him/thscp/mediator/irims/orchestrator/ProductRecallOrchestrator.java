@@ -158,30 +158,30 @@ public class ProductRecallOrchestrator extends UntypedActor{
         if (StringUtils.isBlank(irimsRequest.getUnit()))
             resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("UNIT_IS_BLANK"), null));
 
-//        try {
-//            if (!DateValidatorUtils.isValidPastDate(irimsRequest.getRecallDate(), checkDateFormatStrings(irimsRequest.getRecallDate()))) {
-//                resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_RECALL_DATE_IS_NOT_VALID_PAST_DATE"), null));
-//            }
-//            else{
-//                SimpleDateFormat irimsDateFormat = new SimpleDateFormat(checkDateFormatStrings(irimsRequest.getRecallDate()));
-//                irimsRequest.setRecallDate(thscpDateFormat.format(irimsDateFormat.parse(irimsRequest.getRecallDate())));
-//
-//            }
-//        } catch (ParseException e) {
-//            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_RECALL_DATE_INVALID_FORMAT"),null));
-//        }
-//
-//        try {
-//            if (!DateValidatorUtils.isValidPastDate(irimsRequest.getStartDate(), checkDateFormatStrings(irimsRequest.getStartDate()))) {
-//                resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_START_DATE_IS_NOT_VALID_PAST_DATE"), null));
-//            }
-//            else{
-//                SimpleDateFormat irimsDateFormat = new SimpleDateFormat(checkDateFormatStrings(irimsRequest.getStartDate()));
-//                irimsRequest.setStartDate(thscpDateFormat.format(irimsDateFormat.parse(irimsRequest.getStartDate())));
-//            }
-//        } catch (ParseException e) {
-//            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_START_DATE_INVALID_FORMAT"),null));
-//        }
+        try {
+            if (!DateValidatorUtils.isValidPastDate(irimsRequest.getRecallDate(), checkDateFormatStrings(irimsRequest.getRecallDate()))) {
+                resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_RECALL_DATE_IS_NOT_VALID_PAST_DATE"), null));
+            }
+            else{
+                SimpleDateFormat irimsDateFormat = new SimpleDateFormat(checkDateFormatStrings(irimsRequest.getRecallDate()));
+                irimsRequest.setRecallDate(thscpDateFormat.format(irimsDateFormat.parse(irimsRequest.getRecallDate())));
+
+            }
+        } catch (ParseException e) {
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_RECALL_DATE_INVALID_FORMAT"),null));
+        }
+
+        try {
+            if (!DateValidatorUtils.isValidPastDate(irimsRequest.getStartDate(), checkDateFormatStrings(irimsRequest.getStartDate()))) {
+                resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_START_DATE_IS_NOT_VALID_PAST_DATE"), null));
+            }
+            else{
+                SimpleDateFormat irimsDateFormat = new SimpleDateFormat(checkDateFormatStrings(irimsRequest.getStartDate()));
+                irimsRequest.setStartDate(thscpDateFormat.format(irimsDateFormat.parse(irimsRequest.getStartDate())));
+            }
+        } catch (ParseException e) {
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_START_DATE_INVALID_FORMAT"),null));
+        }
 
         return resultDetailsList;
     }

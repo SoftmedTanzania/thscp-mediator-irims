@@ -4,6 +4,7 @@ import akka.testkit.JavaTestKit;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Test;
 import org.openhim.mediator.engine.messages.FinishRequest;
 import org.openhim.mediator.engine.testing.MockLauncher;
@@ -81,8 +82,7 @@ public class ProductRecallOrchestratorTest extends BaseTest {
                     break;
                 }
             }
-
-            assertTrue("Must send FinishRequest", foundResponse);
+            Assert.assertNotNull(foundResponse);
         }};
     }
 

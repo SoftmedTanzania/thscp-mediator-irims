@@ -1,0 +1,18 @@
+
+[ {
+  "uuid": "5aegd12asdegji25k",
+  "actionRequired": "action2",
+  "affectedCommunity": "community!",
+  "batchNumber": "01",
+  "closureDate": "2020-11-27",
+  "description": "this is action ",
+  "distributedQuantity": 10,
+  "issue": "issueone",
+  "recallDate": "2022-11-27",
+  "recallFrequency": 10,
+  "recalledQuantity": 200,
+  "receivedQuantity": 2000,
+  "startDate": "2022-11-27",
+  "unit": "unit"
+}
+]

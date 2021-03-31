@@ -240,55 +240,45 @@ public class ProductRecallOrchestrator extends UntypedActor{
      * @param msg to be sent
      */
     private void sendDataToThscp(String msg) {
-        if (!errorMessages.isEmpty()) {
-            FinishRequest finishRequest = new FinishRequest(new Gson().toJson(errorMessages), "text/json", HttpStatus.SC_BAD_REQUEST);
-            (workingRequest).getRequestHandler().tell(finishRequest, getSelf());
-        } else {
-            Map<String, String> headers = new HashMap<>();
-            headers.put("Content-Type", "application/json");
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
 
-            String scheme;
-            String host;
-            String path;
-            int portNumber;
-
-            if (config.getDynamicConfig().isEmpty()) {
-                if (config.getProperty("thscp.secure").equals("true")) {
-                    scheme = "https";
-                } else {
-                    scheme = "http";
-                }
-
-                host = config.getProperty("thscp.host");
-                portNumber = Integer.parseInt(config.getProperty("thscp.api.port"));
-                path = config.getProperty("thscp.api.path");
+        String scheme;
+        String host;
+        String path;
+        int portNumber;
+        if (config.getDynamicConfig().isEmpty()) {
+            if (config.getProperty("destination.scheme").equals("https")) {
+                scheme = "https";
             } else {
-                JSONObject connectionProperties = new JSONObject(config.getDynamicConfig()).getJSONObject("thscpConnectionProperties");
-
-                if (!connectionProperties.getString("thscpUsername").isEmpty() && !connectionProperties.getString("thscpPassword").isEmpty()) {
-                    String auth = connectionProperties.getString("thscpUsername") + ":" + connectionProperties.getString("thscpPassword");
-                    byte[] encodedAuth = Base64.encodeBase64(
-                            auth.getBytes(StandardCharsets.ISO_8859_1));
-                    String authHeader = "Basic " + new String(encodedAuth);
-                    headers.put(HttpHeaders.AUTHORIZATION, authHeader);
-                }
-
-                host = connectionProperties.getString("thscpHost");
-                portNumber = connectionProperties.getInt("thscpPort");
-                path = connectionProperties.getString("thscpPath");
-                scheme = connectionProperties.getString("thscpScheme");
+                scheme = "http";
             }
 
-            List<Pair<String, String>> params = new ArrayList<>();
+            host = config.getProperty("destination.host");
+            portNumber = Integer.parseInt(config.getProperty("destination.api.port"));
+            path = config.getProperty("destination.api.path");
+        } else {
+            JSONObject connectionProperties = new JSONObject(config.getDynamicConfig()).getJSONObject("destinationConnectionProperties");
 
-            MediatorHTTPRequest forwardToThscpRequest = new MediatorHTTPRequest(
-                    (workingRequest).getRequestHandler(), getSelf(), "Sending recall data to thscp", "POST", scheme,
-                    host, portNumber, path, msg, headers, params
-            );
-
-            ActorSelection httpConnector = getContext().actorSelection(config.userPathFor("http-connector"));
-            httpConnector.tell(forwardToThscpRequest, getSelf());
+            host = connectionProperties.getString("destinationHost");
+            portNumber = connectionProperties.getInt("destinationPort");
+            path = connectionProperties.getString("destinationPath");
+            scheme = connectionProperties.getString("destinationScheme");
         }
+
+        List<Pair<String, String>> params = new ArrayList<>();
+
+        host = scheme + "://" + host + ":" + portNumber + path;
+
+        MediatorHTTPRequest forwardToThscpRequest = new MediatorHTTPRequest(
+                (workingRequest).getRequestHandler()
+                , getSelf(), "Sending Data to the THSCP Server", "POST",
+                host, msg, headers, params
+        );
+
+        ActorSelection httpConnector = getContext().actorSelection(config.userPathFor("http-connector"));
+        httpConnector.tell(forwardToThscpRequest, getSelf());
+
     }
 
     /**

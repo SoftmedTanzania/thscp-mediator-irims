@@ -1,63 +1,23 @@
 package tz.go.moh.him.thscp.mediator.irims.orchestrator;
 
-import akka.actor.ActorSelection;
-import akka.actor.UntypedActor;
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpStatus;
 import org.codehaus.plexus.util.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
-import org.apache.http.HttpHeaders;
-import org.json.JSONObject;
 import org.openhim.mediator.engine.MediatorConfig;
-import org.openhim.mediator.engine.messages.FinishRequest;
 import org.openhim.mediator.engine.messages.MediatorHTTPRequest;
 import org.openhim.mediator.engine.messages.MediatorHTTPResponse;
 import tz.go.moh.him.mediator.core.domain.ErrorMessage;
 import tz.go.moh.him.mediator.core.domain.ResultDetail;
 import tz.go.moh.him.mediator.core.validator.DateValidatorUtils;
-import tz.go.moh.him.thscp.mediator.irims.domain.IRIMSRequest;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
+import tz.go.moh.him.thscp.mediator.irims.domain.ProductRecallRequest;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-public class ProductRecallOrchestrator extends UntypedActor{
-    /**
-     * The logger instance.
-     */
-    private final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
-    /**
-     * The mediator configuration.
-     */
-    protected final MediatorConfig config;
-
-    /**
-     * Represents a mediator request.
-     */
-    protected MediatorHTTPRequest workingRequest;
-
-    protected JSONObject errorMessageResource;
-
-    protected SimpleDateFormat thscpDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    /**
-     * Represents a list of error messages, if any,that have been caught during payload data validation to be returned to the source system as response.
-     */
-    protected List<ErrorMessage> errorMessages = new ArrayList<>();
-
-    /**
-     * Handles the received message.
-     *
-     * @param msg The received message.
-     */
+public class ProductRecallOrchestrator extends BaseOrchestrator{
 
     /**
      * Initializes a new instance of the {@link ProductRecallOrchestrator} class.
@@ -65,15 +25,7 @@ public class ProductRecallOrchestrator extends UntypedActor{
      * @param config The mediator configuration.
      */
     public ProductRecallOrchestrator(MediatorConfig config) {
-        this.config = config;
-        InputStream stream = getClass().getClassLoader().getResourceAsStream("error-messages.json");
-        try {
-            if (stream != null) {
-                errorMessageResource = new JSONObject(IOUtils.toString(stream)).getJSONObject("PRODUCT_RECALL_ERROR_MESSAGES");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        super(config);
     }
 
     /**
@@ -81,10 +33,10 @@ public class ProductRecallOrchestrator extends UntypedActor{
      *
      * @param receivedList The object to be validated
      */
-    protected List<IRIMSRequest> validateData(List<IRIMSRequest> receivedList) {
-        List<IRIMSRequest> validReceivedList = new ArrayList<>();
+    protected List<ProductRecallRequest> validateData(List<ProductRecallRequest> receivedList) {
+        List<ProductRecallRequest> validReceivedList = new ArrayList<>();
 
-        for (IRIMSRequest irimsRequest : receivedList) {
+        for (ProductRecallRequest irimsRequest : receivedList) {
             ErrorMessage errorMessage = new ErrorMessage();
             errorMessage.setSource(new Gson().toJson(irimsRequest));
 
@@ -116,51 +68,51 @@ public class ProductRecallOrchestrator extends UntypedActor{
      * @param irimsRequest to be validated
      * @return array list of validation results details for failed validations
      */
-    public List<ResultDetail> validateRequiredFields(IRIMSRequest irimsRequest) {
+    public List<ResultDetail> validateRequiredFields(ProductRecallRequest irimsRequest) {
         List<ResultDetail> resultDetailsList = new ArrayList<>();
 
         if (StringUtils.isBlank(irimsRequest.getUuid()))
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("UUID_IS_BLANK"), null));
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("GENERIC_ERR"),"uuid"), null));
 
         if (StringUtils.isBlank(irimsRequest.getActionRequired()))
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ACTION_REQUIRED_IS_BLANK"), null));
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("GENERIC_ERR"),"actionRequired"), null));
 
         if (StringUtils.isBlank(irimsRequest.getAffectedCommunity()))
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("AFFECTED_COMMUNITY_IS_BLANK"), null));
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("GENERIC_ERR"),"affectedCommunity"), null));
 
         if (StringUtils.isBlank(irimsRequest.getBatchNumber()))
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("BATCH_NUMBER_IS_BLANK"), null));
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("GENERIC_ERR"),"batchNumber"), null));
 
         if (StringUtils.isBlank(irimsRequest.getClosureDate()))
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("CLOSURE_DATE_IS_BLANK"), null));
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("GENERIC_ERR"),"closureDate"), null));
 
         if (StringUtils.isBlank(irimsRequest.getDescription()))
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("DESCRIPTION_IS_BLANK"), null));
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("GENERIC_ERR"),"description"), null));
 
         if (StringUtils.isBlank(String.valueOf(irimsRequest.getDistributedQuantity())))
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("DISTRIBUTED_QUANTITY_IS_BLANK"), null));
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("GENERIC_ERR"),"distributedQuantity"), null));
 
         if (StringUtils.isBlank(irimsRequest.getIssue()))
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ISSUE_IS_BLANK"), null));
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("GENERIC_ERR"),"issue"), null));
 
         if (StringUtils.isBlank(irimsRequest.getRecallDate()))
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("RECALL_DATE_IS_BLANK"), null));
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("GENERIC_ERR"),"recalldate"), null));
 
         if (StringUtils.isBlank(String.valueOf(irimsRequest.getRecallFrequency())))
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("RECALL_FREQUENCY_IS_BLANK"), null));
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("GENERIC_ERR"),"recallFrequency"), null));
 
         if (StringUtils.isBlank(String.valueOf(irimsRequest.getRecalledQuantity())))
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("RECALLED_QUANTITY_IS_BLANK"), null));
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("GENERIC_ERR"),"recalledQuantity"), null));
 
         if (StringUtils.isBlank(String.valueOf(irimsRequest.getStartDate())))
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("START_DATE_IS_BLANK"), null));
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("GENERIC_ERR"),"startDate"), null));
 
         if (StringUtils.isBlank(irimsRequest.getUnit()))
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("UNIT_IS_BLANK"), null));
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("GENERIC_ERR"),"unit"), null));
 
         try {
             if (!DateValidatorUtils.isValidPastDate(irimsRequest.getRecallDate(), checkDateFormatStrings(irimsRequest.getRecallDate()))) {
-                resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_RECALL_DATE_IS_NOT_VALID_PAST_DATE"), null));
+                resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("ERROR_DATE_IS_NOT_VALID_PAST_DATE"),"recallDate"), null));
             }
             else{
                 SimpleDateFormat irimsDateFormat = new SimpleDateFormat(checkDateFormatStrings(irimsRequest.getRecallDate()));
@@ -168,21 +120,22 @@ public class ProductRecallOrchestrator extends UntypedActor{
 
             }
         } catch (ParseException e) {
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_RECALL_DATE_INVALID_FORMAT"),null));
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("ERROR_INVALID_DATE_FORMAT"),"recallDate"),null));
         }
 
         try {
             if (!DateValidatorUtils.isValidPastDate(irimsRequest.getStartDate(), checkDateFormatStrings(irimsRequest.getStartDate()))) {
-                resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_START_DATE_IS_NOT_VALID_PAST_DATE"), null));
+                resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("ERROR_DATE_IS_NOT_VALID_PAST_DATE"),"startDate"), null));
             }
             else{
                 SimpleDateFormat irimsDateFormat = new SimpleDateFormat(checkDateFormatStrings(irimsRequest.getStartDate()));
                 irimsRequest.setStartDate(thscpDateFormat.format(irimsDateFormat.parse(irimsRequest.getStartDate())));
             }
         } catch (ParseException e) {
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, errorMessageResource.getString("ERROR_START_DATE_INVALID_FORMAT"),null));
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("ERROR_INVALID_DATE_FORMAT"),"startDate"),null));
         }
 
+        log.info("results are" +resultDetailsList);
         return resultDetailsList;
     }
 
@@ -195,7 +148,7 @@ public class ProductRecallOrchestrator extends UntypedActor{
             log.info("Received request: " + workingRequest.getHost() + " " + workingRequest.getMethod() + " " + workingRequest.getPath());
 
             //Converting the received request body to POJO List
-            List<IRIMSRequest> irimsRequestList = new ArrayList<>();
+            List<ProductRecallRequest> irimsRequestList = new ArrayList<>();
             try {
                 irimsRequestList = convertMessageBodyToPojoList(((MediatorHTTPRequest) msg).getBody());
             } catch (Exception e) {
@@ -209,7 +162,7 @@ public class ProductRecallOrchestrator extends UntypedActor{
 
             log.info("Received payload in JSON = " + new Gson().toJson(irimsRequestList));
 
-            List<IRIMSRequest> validatedObjects;
+            List<ProductRecallRequest> validatedObjects;
             if (irimsRequestList.isEmpty()) {
                 ErrorMessage errorMessage = new ErrorMessage(
                         workingRequest.getBody(),
@@ -233,84 +186,9 @@ public class ProductRecallOrchestrator extends UntypedActor{
             unhandled(msg);
         }
     }
-
-    /**
-     * Handle sending of data to thscp
-     *
-     * @param msg to be sent
-     */
-    private void sendDataToThscp(String msg) {
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", "application/json");
-
-        String scheme;
-        String host;
-        String path;
-        int portNumber;
-        if (config.getDynamicConfig().isEmpty()) {
-            if (config.getProperty("destination.scheme").equals("https")) {
-                scheme = "https";
-            } else {
-                scheme = "http";
-            }
-
-            host = config.getProperty("destination.host");
-            portNumber = Integer.parseInt(config.getProperty("destination.api.port"));
-            path = config.getProperty("destination.api.path");
-        } else {
-            JSONObject connectionProperties = new JSONObject(config.getDynamicConfig()).getJSONObject("destinationConnectionProperties");
-
-            host = connectionProperties.getString("destinationHost");
-            portNumber = connectionProperties.getInt("destinationPort");
-            path = connectionProperties.getString("destinationPath");
-            scheme = connectionProperties.getString("destinationScheme");
-        }
-
-        List<Pair<String, String>> params = new ArrayList<>();
-
-        host = scheme + "://" + host + ":" + portNumber + path;
-
-        MediatorHTTPRequest forwardToThscpRequest = new MediatorHTTPRequest(
-                (workingRequest).getRequestHandler()
-                , getSelf(), "Sending Data to the THSCP Server", "POST",
-                host, msg, headers, params
-        );
-
-        ActorSelection httpConnector = getContext().actorSelection(config.userPathFor("http-connector"));
-        httpConnector.tell(forwardToThscpRequest, getSelf());
-
-    }
-
-    /**
-     * Handles checking for the correct date string format from a varierity of formats
-     *
-     * @param dateString of the date
-     * @return the matching date string format
-     */
-    public static String checkDateFormatStrings(String dateString) {
-        List<String> formatStrings = Arrays.asList("yyyy-MM-dd HH:mm:ss:ms", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd","yyyyMMdd");
-        for (String formatString : formatStrings) {
-            try {
-                new SimpleDateFormat(formatString).parse(dateString);
-                return formatString;
-            }
-            catch (ParseException e) {
-              //  e.printStackTrace();
-            }
-        }
-
-        return "";
-    }
-
-
-    protected List<IRIMSRequest> convertMessageBodyToPojoList(String msg) throws JsonSyntaxException {
-        List<IRIMSRequest> irimsRequestList;
-
-        Type listType = new TypeToken<List<IRIMSRequest>>() {
-        }.getType();
-        irimsRequestList = new Gson().fromJson((workingRequest).getBody(), listType);
-
-        return irimsRequestList;
+    protected List<ProductRecallRequest> convertMessageBodyToPojoList(String msg) throws JsonSyntaxException {
+        List<ProductRecallRequest> productRecallRequestList = Arrays.asList(serializer.deserialize(msg, ProductRecallRequest[].class));
+        return productRecallRequestList;
     }
 
 

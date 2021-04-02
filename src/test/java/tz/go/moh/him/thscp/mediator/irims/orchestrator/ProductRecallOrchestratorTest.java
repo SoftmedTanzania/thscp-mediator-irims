@@ -10,14 +10,17 @@ import org.openhim.mediator.engine.testing.MockLauncher;
 import org.openhim.mediator.engine.testing.TestingUtils;
 import tz.go.moh.him.thscp.mediator.irims.mock.MockDestination;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
+
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
-public class ProductRecallOrchestratorTest extends BaseTest {
+public class ProductRecallOrchestratorTest extends BaseTest{
+
     /**
      * Represents an Error Messages Definition Resource Object defined in <a href="file:../resources/error-messages.json">/resources/error-messages.json</a>.
      */
@@ -29,8 +32,15 @@ public class ProductRecallOrchestratorTest extends BaseTest {
     @Override
     public void before() throws Exception {
         super.before();
+        InputStream stream = getClass().getClassLoader().getResourceAsStream("error-messages.json");
+        try {
+            if (stream != null) {
+                thscpErrorMessageResource = new JSONObject(IOUtils.toString(stream));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        thscpErrorMessageResource = errorMessageResource.getJSONObject("PRODUCT_RECALL_ERROR_MESSAGES");
         List<MockLauncher.ActorToLaunch> toLaunch = new LinkedList<>();
         toLaunch.add(new MockLauncher.ActorToLaunch("http-connector", MockDestination.class));
         TestingUtils.launchActors(system, testConfig.getName(), toLaunch);
@@ -124,10 +134,8 @@ public class ProductRecallOrchestratorTest extends BaseTest {
             }
 
             assertEquals(400, responseStatus);
-            assertTrue(responseMessage.contains(thscpErrorMessageResource.getString("UUID_IS_BLANK")));
-            assertTrue(responseMessage.contains(String.format(thscpErrorMessageResource.getString("ACTION_REQUIRED_IS_BLANK"), "")));
-            assertTrue(responseMessage.contains(String.format(thscpErrorMessageResource.getString("AFFECTED_COMMUNITY_IS_BLANK"), "")));
-            assertTrue(responseMessage.contains(String.format(thscpErrorMessageResource.getString("BATCH_NUMBER_IS_BLANK"), "")));
+            assertTrue(responseMessage.contains(String.format(thscpErrorMessageResource.getString("GENERIC_ERR"),"uuid")));
+            assertTrue(responseMessage.contains(String.format(thscpErrorMessageResource.getString("GENERIC_ERR"), "actionRequired")));
         }};
     }
 
@@ -166,8 +174,7 @@ public class ProductRecallOrchestratorTest extends BaseTest {
             }
 
             assertEquals(400, responseStatus);
-            assertTrue(responseMessage.contains(String.format(thscpErrorMessageResource.getString("ERROR_RECALL_DATE_IS_NOT_VALID_PAST_DATE"), "2022-05-05")));
-            assertTrue(responseMessage.contains(String.format(thscpErrorMessageResource.getString("ERROR_START_DATE_IS_NOT_VALID_PAST_DATE"), "2022-05-05")));
+            assertTrue(responseMessage.contains(String.format(String.format(thscpErrorMessageResource.getString("ERROR_DATE_IS_NOT_VALID_PAST_DATE"),"recallDate"), "2022-05-05")));
         }};
 
     }

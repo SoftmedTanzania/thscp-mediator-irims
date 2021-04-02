@@ -2,7 +2,7 @@ package tz.go.moh.him.thscp.mediator.irims.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
-public class IRIMSRequest {
+public class ProductRecallRequest {
 
     @JsonProperty("uuid")
     @SerializedName("uuid")

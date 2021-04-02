@@ -1,23 +1,9 @@
-{
-  "PRODUCT_RECALL_ERROR_MESSAGES":{
-    "ERROR_INVALID_PAYLOAD": "Error the payload is invalid",
-    "ERROR_RECALL_DATE_INVALID_FORMAT": "Recall date is in an invalid format",
-    "ERROR_RECALL_DATE_IS_NOT_VALID_PAST_DATE": "Recall date is not a valid past date",
-    "ERROR_START_DATE_INVALID_FORMAT": "Start date is in an invalid format",
-    "ERROR_START_DATE_IS_NOT_VALID_PAST_DATE": "Start date is not a valid past date",
-    "UUID_IS_BLANK": "Validation failed. UUID must not be blank",
-    "ACTION_REQUIRED_IS_BLANK": "Validation failed. actionRequired must not be blank",
-    "AFFECTED_COMMUNITY_IS_BLANK": "Validation failed. affectedCommunity must not be blank",
-    "BATCH_NUMBER_IS_BLANK": "Validation failed. batchNumber must not be blank",
-    "CLOSURE_DATE_IS_BLANK": "Validation failed. closureDate must not be blank",
-    "DESCRIPTION_IS_BLANK": "Validation failed. description must not be blank",
-    "DISTRIBUTED_QUANTITY_IS_BLANK": "Validation failed. distributedQuantity must not be blank",
-    "ISSUE_IS_BLANK": "Validation failed. issue must not be blank",
-    "RECALL_DATE_IS_BLANK": "Validation failed. recallDate must not be blank",
-    "RECALL_FREQUENCY_IS_BLANK": "Validation failed. recallFrequency must not be blank",
-    "RECALLED_QUANTITY_IS_BLANK": "Validation failed. recalledQuantity must not be blank",
-    "START_DATE_IS_BLANK": "Validation failed. startDate must not be blank",
-    "UNIT_IS_BLANK": "Validation failed. unit must not be blank"
-  }
 
+{
+  "GENERIC_ERR": "%s cannot be null or empty",
+  "ERROR_INVALID_PAYLOAD": "Error the payload is invalid",
+  "ERROR_INVALID_DATE_FORMAT": "%s is in an invalid format",
+  "ERROR_DATE_IS_NOT_VALID_PAST_DATE": "%s is not a valid past date"
 }
+
+

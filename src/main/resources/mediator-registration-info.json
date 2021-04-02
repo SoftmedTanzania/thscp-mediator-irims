@@ -7,7 +7,7 @@
     {
       "name": "THSCP-Mediator-iRIMS Route",
       "host": "localhost",
-      "port": "3020",
+      "port": "3025",
       "path": "/irims-thscp",
       "type": "http"
     }
@@ -24,7 +24,7 @@
         {
           "name": "THSCP-Mediator-iRIMS Route",
           "host": "localhost",
-          "port": "3020",
+          "port": "3025",
           "path": "/irims-thscp",
           "type": "http",
           "primary": "true"

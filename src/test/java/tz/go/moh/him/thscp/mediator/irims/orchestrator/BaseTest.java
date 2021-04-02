@@ -14,13 +14,15 @@ import org.openhim.mediator.engine.RegistrationConfig;
 import org.openhim.mediator.engine.messages.MediatorHTTPRequest;
 import org.openhim.mediator.engine.testing.TestingUtils;
 import tz.go.moh.him.thscp.mediator.irims.MediatorMain;
-
+import tz.go.moh.him.thscp.mediator.irims.mock.CustomMockLauncher;
+import tz.go.moh.him.thscp.mediator.irims.mock.MockDestination;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class BaseTest {
+
+public class BaseTest {
     /**
      * Represents the system actor.
      */
@@ -100,5 +102,14 @@ public abstract class BaseTest {
         );
 
         orchestratorActor.tell(POST_Request, sender);
+    }
+
+    /**
+     * Sets up the hdr mock actor with the expected message type
+     *
+     * @param expectedMessageType to be verified by the hdr mock in the received request body
+     */
+    protected void setupDestinationMock(String expectedMessageType) {
+        system.actorOf(Props.create(CustomMockLauncher.class, MockDestination.class, expectedMessageType, "http-connector"), testConfig.getName());
     }
 }

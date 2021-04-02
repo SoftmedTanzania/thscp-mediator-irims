@@ -37,7 +37,7 @@ public class MediatorMain {
     private static MediatorConfig loadConfig(String configPath) throws IOException, RoutingTable.RouteAlreadyMappedException {
         MediatorConfig config = new MediatorConfig();
 
-        if (configPath!=null) {
+        if (configPath != null) {
             Properties props = new Properties();
             File conf = new File(configPath);
             InputStream in = FileUtils.openInputStream(conf);
@@ -51,7 +51,7 @@ public class MediatorMain {
 
         config.setName(config.getProperty("mediator.name"));
         config.setServerHost(config.getProperty("mediator.host"));
-        config.setServerPort( Integer.parseInt(config.getProperty("mediator.port")) );
+        config.setServerPort(Integer.parseInt(config.getProperty("mediator.port")));
         config.setRootTimeout(Integer.parseInt(config.getProperty("mediator.timeout")));
 
         config.setCoreHost(config.getProperty("core.host"));
@@ -68,7 +68,7 @@ public class MediatorMain {
         RegistrationConfig regConfig = new RegistrationConfig(regInfo);
         config.setRegistrationConfig(regConfig);
 
-        if (config.getProperty("mediator.heartbeats")!=null && "true".equalsIgnoreCase(config.getProperty("mediator.heartbeats"))) {
+        if (config.getProperty("mediator.heartbeats") != null && "true".equalsIgnoreCase(config.getProperty("mediator.heartbeats"))) {
             config.setHeartbeatsEnabled(true);
         }
 
@@ -85,7 +85,7 @@ public class MediatorMain {
         log.info("Initializing mediator actors...");
 
         String configPath = null;
-        if (args.length==2 && args[0].equals("--conf")) {
+        if (args.length == 2 && args[0].equals("--conf")) {
             configPath = args[1];
             log.info("Loading mediator configuration from '" + configPath + "'...");
         } else {

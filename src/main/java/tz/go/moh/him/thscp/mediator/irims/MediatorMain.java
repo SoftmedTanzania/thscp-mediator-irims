@@ -20,7 +20,7 @@ public class MediatorMain {
 
         //TODO Configure routes here
         //...
-        routingTable.addRoute("/irims-thscp", ProductRecallOrchestrator.class);
+        routingTable.addRoute("/thscp-product-recall", ProductRecallOrchestrator.class);
 
         return routingTable;
     }

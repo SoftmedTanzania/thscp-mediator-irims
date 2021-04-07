@@ -1,7 +1,7 @@
 {
   "urn": "urn:uuid:f09fc780-7b2d-11eb-9825-3faf729b0886",
   "version": "0.1.0",
-  "name": "THSCP-Mediator-iRIMS",
+  "name": "THSCP - iRIMS Mediator",
   "description": "A mediator for handling system integration between iRIMS and THSCP",
   "endpoints": [
     {

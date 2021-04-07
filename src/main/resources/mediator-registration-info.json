@@ -5,27 +5,27 @@
   "description": "A mediator for handling system integration between iRIMS and THSCP",
   "endpoints": [
     {
-      "name": "THSCP-Mediator-iRIMS Route",
+      "name": "THSCP Product Recall Route",
       "host": "localhost",
-      "port": "3025",
-      "path": "/irims-thscp",
+      "port": "3024",
+      "path": "/thscp-product-recall",
       "type": "http"
     }
   ],
   "defaultChannelConfig": [
     {
-      "name": "iRIMS - THSCP Channel",
-      "urlPattern": "^/irims-thscp$",
+      "name": "THSCP Product Recall Channel",
+      "urlPattern": "^/thscp-product-recall$",
       "type": "http",
       "allow": [
         "irims-role"
       ],
       "routes": [
         {
-          "name": "THSCP-Mediator-iRIMS Route",
+          "name": "THSCP Product Recall Route",
           "host": "localhost",
-          "port": "3025",
-          "path": "/irims-thscp",
+          "port": "3024",
+          "path": "/thscp-product-recall",
           "type": "http",
           "primary": "true"
         }

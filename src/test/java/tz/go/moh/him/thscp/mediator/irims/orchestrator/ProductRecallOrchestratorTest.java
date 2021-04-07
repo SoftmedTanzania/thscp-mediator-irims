@@ -70,7 +70,7 @@ public class ProductRecallOrchestratorTest extends BaseTest{
             assertNotNull(stream);
 
 
-            createActorAndSendRequest(system, testConfig, getRef(), IOUtils.toString(stream), ProductRecallOrchestrator.class, "/irims-thscp");
+            createActorAndSendRequest(system, testConfig, getRef(), IOUtils.toString(stream), ProductRecallOrchestrator.class, "/thscp-product-recall");
 
             final Object[] out =
                     new ReceiveWhile<Object>(Object.class, duration("1 second")) {
@@ -109,7 +109,7 @@ public class ProductRecallOrchestratorTest extends BaseTest{
 
             assertNotNull(stream);
 
-            createActorAndSendRequest(system, testConfig, getRef(), IOUtils.toString(stream), ProductRecallOrchestrator.class, "/irims-thscp");
+            createActorAndSendRequest(system, testConfig, getRef(), IOUtils.toString(stream), ProductRecallOrchestrator.class, "/thscp-product-recall");
 
             final Object[] out =
                     new ReceiveWhile<Object>(Object.class, duration("1 second")) {
@@ -149,7 +149,7 @@ public class ProductRecallOrchestratorTest extends BaseTest{
 
             assertNotNull(stream);
 
-            createActorAndSendRequest(system, testConfig, getRef(), IOUtils.toString(stream), ProductRecallOrchestrator.class, "/irims-thscp");
+            createActorAndSendRequest(system, testConfig, getRef(), IOUtils.toString(stream), ProductRecallOrchestrator.class, "/thscp-product-recall");
 
             final Object[] out =
                     new ReceiveWhile<Object>(Object.class, duration("1 second")) {

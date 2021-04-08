@@ -118,20 +118,20 @@ public abstract class BaseOrchestrator extends UntypedActor{
                 portNumber = Integer.parseInt(config.getProperty("destination.api.port"));
                 path = config.getProperty("destination.api.path");
             } else {
-                JSONObject connectionProperties = new JSONObject(config.getDynamicConfig()).getJSONObject("thscpConnectionProperties");
+                JSONObject connectionProperties = new JSONObject(config.getDynamicConfig()).getJSONObject("destinationConnectionProperties");
 
-                if (!connectionProperties.getString("thscpUsername").isEmpty() && !connectionProperties.getString("thscpPassword").isEmpty()) {
-                    String auth = connectionProperties.getString("thscpUsername") + ":" + connectionProperties.getString("thscpPassword");
+                if (!connectionProperties.getString("destinationUsername").isEmpty() && !connectionProperties.getString("destinationPassword").isEmpty()) {
+                    String auth = connectionProperties.getString("destinationUsername") + ":" + connectionProperties.getString("destinationPassword");
                     byte[] encodedAuth = Base64.encodeBase64(
                             auth.getBytes(StandardCharsets.ISO_8859_1));
                     String authHeader = "Basic " + new String(encodedAuth);
                     headers.put(HttpHeaders.AUTHORIZATION, authHeader);
                 }
 
-                host = connectionProperties.getString("thscpHost");
-                portNumber = connectionProperties.getInt("thscpPort");
-                path = connectionProperties.getString("thscpPath");
-                scheme = connectionProperties.getString("thscpScheme");
+                host = connectionProperties.getString("destinationHost");
+                portNumber = connectionProperties.getInt("destinationPort");
+                path = connectionProperties.getString("destinationPath");
+                scheme = connectionProperties.getString("destinationScheme");
             }
 
             List<Pair<String, String>> params = new ArrayList<>();

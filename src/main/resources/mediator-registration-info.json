@@ -7,7 +7,7 @@
     {
       "name": "THSCP Product Recall Route",
       "host": "localhost",
-      "port": "3024",
+      "port": "3025",
       "path": "/thscp-product-recall",
       "type": "http"
     }
@@ -24,7 +24,7 @@
         {
           "name": "THSCP Product Recall Route",
           "host": "localhost",
-          "port": "3024",
+          "port": "3025",
           "path": "/thscp-product-recall",
           "type": "http",
           "primary": "true"

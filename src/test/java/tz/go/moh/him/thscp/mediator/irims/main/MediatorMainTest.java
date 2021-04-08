@@ -22,7 +22,7 @@ public class MediatorMainTest {
         MediatorConfig mediatorConfig = (MediatorConfig) loadConfigMethod.invoke(null, "src/test/resources/mediator.properties");
 
         Assert.assertEquals("localhost", mediatorConfig.getServerHost());
-        Assert.assertEquals(new Integer(3024), mediatorConfig.getServerPort());
+        Assert.assertEquals(new Integer(3025), mediatorConfig.getServerPort());
         Assert.assertEquals(new Integer(60000), mediatorConfig.getRootTimeout());
         Assert.assertTrue(mediatorConfig.getHeartsbeatEnabled());
     }

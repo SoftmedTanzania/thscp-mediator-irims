@@ -1,18 +1,22 @@
 
-[ {
-  "uuid": "5aegd12asdegji25k",
-  "actionRequired": "action2",
-  "affectedCommunity": "community!",
-  "batchNumber": "01",
-  "closureDate": "2020-11-27",
-  "description": "this is action ",
-  "distributedQuantity": 10,
-  "issue": "issueone",
-  "recallDate": "2022-11-27",
-  "recallFrequency": 10,
-  "recalledQuantity": 200,
-  "receivedQuantity": 2000,
-  "startDate": "2022-11-27",
-  "unit": "unit"
-}
+[
+  {
+    "uuid": "453b906b-5dc4-4ba2-a37b-527f2987b0d8",
+    "actionRequired": "disposal the whole batch",
+    "affectedCommunity": "elderly and the youth",
+    "batchNumber": "657583829bc",
+    "description": "Panadol (Paracetamol + quinine) 40mg",
+    "productCode": "TAN 20 HM 0001",
+    "distributedQuantity": 1000,
+    "issue": "Alert has been raise a report ADR on the product batch",
+    "recallDate": "2024-04-21",
+    "recallOrganization": "TMDA HQ",
+    "recallFrequency": 2,
+    "recalledQuantity": 1000,
+    "receivedQuantity": 600,
+    "unit": "Bracelet",
+    "startDate": "2024-05-01",
+    "closureDate": "2021-06-01",
+    "region": "dodoma"
+  }
 ]

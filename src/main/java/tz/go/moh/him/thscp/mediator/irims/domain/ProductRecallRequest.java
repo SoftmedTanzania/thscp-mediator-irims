@@ -36,6 +36,10 @@ public class ProductRecallRequest {
     @SerializedName("issue")
     private String issue;
 
+    @JsonProperty("productCode")
+    @SerializedName("productCode")
+    private String productCode;
+
     @JsonProperty("recallDate")
     @SerializedName("recallDate")
     private String recallDate;
@@ -43,6 +47,10 @@ public class ProductRecallRequest {
     @JsonProperty("recallFrequency")
     @SerializedName("recallFrequency")
     private int recallFrequency;
+
+    @JsonProperty("recallOrganization")
+    @SerializedName("recallOrganization")
+    private String recallOrganization;
 
     @JsonProperty("recalledQuantity")
     @SerializedName("recalledQuantity")
@@ -52,12 +60,17 @@ public class ProductRecallRequest {
     @SerializedName("receivedQuantity")
     private int receivedQuantity;
 
+    @JsonProperty("region")
+    @SerializedName("region")
+    private String region;
+
     @JsonProperty("startDate")
     @SerializedName("startDate")
     private String startDate;
 
     @JsonProperty("unit")
     @SerializedName("unit")
+
     private String unit;
 
     public String getUuid()
@@ -198,6 +211,30 @@ public class ProductRecallRequest {
     public void setUnit(String unit)
     {
         this.unit = unit;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
+    public String getRecallOrganization() {
+        return recallOrganization;
+    }
+
+    public void setRecallOrganization(String recallOrganization) {
+        this.recallOrganization = recallOrganization;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 
 }

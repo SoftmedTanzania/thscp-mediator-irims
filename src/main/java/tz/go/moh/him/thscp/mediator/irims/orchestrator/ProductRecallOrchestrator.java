@@ -110,6 +110,15 @@ public class ProductRecallOrchestrator extends BaseOrchestrator{
         if (StringUtils.isBlank(irimsRequest.getUnit()))
             resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("GENERIC_ERR"),"unit"), null));
 
+        if (StringUtils.isBlank(irimsRequest.getProductCode()))
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("GENERIC_ERR"),"productCode"), null));
+
+        if (StringUtils.isBlank(irimsRequest.getRecallOrganization()))
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("GENERIC_ERR"),"getRecallOrganization"), null));
+
+        if (StringUtils.isBlank(irimsRequest.getRegion()))
+            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("GENERIC_ERR"),"region"), null));
+
         try {
             if (!DateValidatorUtils.isValidPastDate(irimsRequest.getRecallDate(), checkDateFormatStrings(irimsRequest.getRecallDate()))) {
                 resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("ERROR_DATE_IS_NOT_VALID_PAST_DATE"),"recallDate"), null));

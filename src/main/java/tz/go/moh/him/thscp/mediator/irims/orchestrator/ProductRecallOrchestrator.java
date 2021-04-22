@@ -132,17 +132,17 @@ public class ProductRecallOrchestrator extends BaseOrchestrator{
             resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("ERROR_INVALID_DATE_FORMAT"),"recallDate"),null));
         }
 
-        try {
-            if (!DateValidatorUtils.isValidPastDate(irimsRequest.getStartDate(), checkDateFormatStrings(irimsRequest.getStartDate()))) {
-                resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("ERROR_DATE_IS_NOT_VALID_PAST_DATE"),"startDate"), null));
-            }
-            else{
-                SimpleDateFormat irimsDateFormat = new SimpleDateFormat(checkDateFormatStrings(irimsRequest.getStartDate()));
-                irimsRequest.setStartDate(thscpDateFormat.format(irimsDateFormat.parse(irimsRequest.getStartDate())));
-            }
-        } catch (ParseException e) {
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("ERROR_INVALID_DATE_FORMAT"),"startDate"),null));
-        }
+//        try {
+//            if (!DateValidatorUtils.isValidPastDate(irimsRequest.getStartDate(), checkDateFormatStrings(irimsRequest.getStartDate()))) {
+//                resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("ERROR_DATE_IS_NOT_VALID_PAST_DATE"),"startDate"), null));
+//            }
+//            else{
+//                SimpleDateFormat irimsDateFormat = new SimpleDateFormat(checkDateFormatStrings(irimsRequest.getStartDate()));
+//                irimsRequest.setStartDate(thscpDateFormat.format(irimsDateFormat.parse(irimsRequest.getStartDate())));
+//            }
+//        } catch (ParseException e) {
+//            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("ERROR_INVALID_DATE_FORMAT"),"startDate"),null));
+//        }
 
         log.info("results are" +resultDetailsList);
         return resultDetailsList;

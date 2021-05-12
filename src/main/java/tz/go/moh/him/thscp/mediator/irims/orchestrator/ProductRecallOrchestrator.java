@@ -110,8 +110,8 @@ public class ProductRecallOrchestrator extends BaseOrchestrator{
         if (StringUtils.isBlank(irimsRequest.getUnit()))
             resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("GENERIC_ERR"),"unit"), null));
 
-        if (StringUtils.isBlank(irimsRequest.getProductCode()))
-            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("GENERIC_ERR"),"productCode"), null));
+//        if (StringUtils.isBlank(irimsRequest.getProductCode()))
+//            resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("GENERIC_ERR"),"productCode"), null));
 
         if (StringUtils.isBlank(irimsRequest.getRecallOrganization()))
             resultDetailsList.add(new ResultDetail(ResultDetail.ResultsDetailsType.ERROR, String.format(errorMessageResource.getString("GENERIC_ERR"),"getRecallOrganization"), null));
